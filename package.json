@@ -12,7 +12,13 @@
     "delsymlink": "cross-env ACTION=delsymlink vite"
   },
   "dependencies": {
-    "vue": "^3.2.45"
+    "@mdi/js": "^7.3.67",
+    "lottie-web": "^5.12.2",
+    "mdi-vue": "^3.0.13",
+    "pinia": "^2.1.7",
+    "showdown": "^2.1.0",
+    "vue": "^3.2.45",
+    "vue-router": "^4.2.5"
   },
   "devDependencies": {
     "@babel/core": "^7.19.0",

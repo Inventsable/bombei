@@ -1,7 +1,6 @@
 import { CEP_Config } from "vite-cep-plugin";
 import { version } from "./package.json";
 
-
 const config: CEP_Config = {
   version,
   id: "com.bombei.cep",
@@ -13,15 +12,9 @@ const config: CEP_Config = {
   extensionManifestVersion: 6.0,
   requiredRuntimeVersion: 9.0,
   hosts: [
-    { name: "AEFT", version: "[0.0,99.9]" },
-    { name: "AME", version: "[0.0,99.9]" },
-    { name: "AUDT", version: "[0.0,99.9]" },
-    { name: "FLPR", version: "[0.0,99.9]" },
     { name: "IDSN", version: "[0.0,99.9]" },
     { name: "ILST", version: "[0.0,99.9]" },
-    { name: "KBRG", version: "[0.0,99.9]" },
     { name: "PHXS", version: "[0.0,99.9]" },
-    { name: "PPRO", version: "[0.0,99.9]" },
   ],
 
   type: "Panel",
@@ -32,17 +25,32 @@ const config: CEP_Config = {
   parameters: ["--v=0", "--enable-nodejs", "--mixed-context"],
   width: 500,
   height: 550,
-
   panels: [
     {
       mainPath: "./main/index.html",
       name: "main",
       panelDisplayName: "Bombei",
       autoVisible: true,
-      width: 600,
+      width: 55,
       height: 650,
+      minWidth: 40,
+      minHeight: 370,
+      maxWidth: 70,
+      maxHeight: 700,
     },
-
+    {
+      mainPath: "./main/index.html",
+      name: "settings",
+      autoVisible: false,
+      type: "ModalDialog",
+      width: 800,
+      height: 650,
+      minHeight: 600,
+      minWidth: 600,
+      maxHeight: 1200,
+      maxWidth: 1200,
+      startOnEvents: [],
+    },
   ],
   build: {
     jsxBin: "off",
