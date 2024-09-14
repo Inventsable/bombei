@@ -86,7 +86,7 @@ export const useSettings = defineStore(name, {
       if (exists(SETTINGS_FILE)) return await deleteFile(SETTINGS_FILE);
       else return false;
     },
-    async saveSettings(): Promise<boolean> {
+    async saveSettings(): Promise<boolean | Error> {
       // console.log("Saving settings....");
       return await writeFile(
         SETTINGS_FILE,

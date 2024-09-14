@@ -57,6 +57,7 @@
     "vite-cep-plugin": "^1.1.12",
     "yarn": "^1.22.17"
   },
+  "homepage": "www.google.com",
   "main": "index.js",
   "license": "MIT"
 }
