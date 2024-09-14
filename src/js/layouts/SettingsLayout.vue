@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { RouterView, useRouter } from 'vue-router'
+import { RouterView, useRouter } from "vue-router";
 import { useHelp } from "../stores/help";
-import { useSettings } from '../stores/settings';
-import Button from '../lib/Volt/button.vue'
-import Tabs from '../lib/Volt/Modal/tabs.vue'
-import {
-  csi,
-} from "../lib/utils/utils";
+import { useSettings } from "../stores/settings";
+import Button from "../lib/Volt/button.vue";
+import Tabs from "../lib/Volt/components/Modal/tabs.vue";
+import { csi } from "../lib/utils/bolt";
 import "../index.scss";
-import { onMounted } from 'vue';
+import { onMounted } from "vue";
 
-const help = useHelp(), router = useRouter(), settings = useSettings();
+const help = useHelp(),
+  router = useRouter(),
+  settings = useSettings();
 
 const routes = [
   {
@@ -23,20 +23,20 @@ const routes = [
     label: "Help",
     callback: function () {
       router.push({
-        path: `/settings/help/${help.pages[0].uuid}`
-      })
-    }
+        path: `/settings/help/${help.pages[0].uuid}`,
+      });
+    },
   },
-]
+];
 const saveAndClose = (): void => {
   settings.saveSettings();
   // dispatch(core.events.settings.saved);
   closeExtension();
-}
+};
 const closeExtension = (): void => {
   // dispatch(core.events.settings.closed);
   csi.closeExtension();
-}
+};
 </script>
 
 <template>
@@ -55,7 +55,6 @@ const closeExtension = (): void => {
     </div>
   </div>
 </template>
-  
 
 <style>
 .settings-view {

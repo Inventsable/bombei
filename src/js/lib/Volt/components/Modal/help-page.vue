@@ -1,41 +1,44 @@
 <script setup lang="ts">
 // @ts-nocheck
-import { computed, watch, nextTick, onMounted } from 'vue';
-import { useHelp } from '../../../stores/help';
-import { openLinkInBrowser } from '../../utils/utils';
-const showdown = require('showdown');
+import { computed, watch, nextTick, onMounted } from "vue";
+import { useHelp } from "../../../../stores/help";
+import { openLinkInBrowser } from "../../../utils/bolt";
+const showdown = require("showdown");
 const props = defineProps<{
-  content: string
-}>()
-const converter = new showdown.Converter()
+  content: string;
+}>();
+const converter = new showdown.Converter();
 
-converter.setOption('tasklists', true);
-converter.setOption('ghMentions', true);
-converter.setOption('emoji', true);
+converter.setOption("tasklists", true);
+converter.setOption("ghMentions", true);
+converter.setOption("emoji", true);
 
 const help = useHelp();
-const html = computed<string>(() => converter.makeHtml(props.content))
-watch(() => help.activeIndex, async () => await nextTick(() => replaceAnchorTags()))
+const html = computed<string>(() => converter.makeHtml(props.content));
+watch(
+  () => help.activeIndex,
+  async () => await nextTick(() => replaceAnchorTags())
+);
 
 function replaceAnchorTags() {
   setTimeout(() => {
-    let anchors = document.querySelectorAll('a');
+    let anchors = document.querySelectorAll("a");
     for (let anchor of anchors) {
       let href = anchor.href;
-      console.log(href)
+      console.log(href);
       anchor.onclick = function () {
-        return openLinkInBrowser(href)
-      }
-      console.log(anchor.onclick)
-      anchor.removeAttribute("href")
-      console.log(anchor)
+        return openLinkInBrowser(href);
+      };
+      console.log(anchor.onclick);
+      anchor.removeAttribute("href");
+      console.log(anchor);
     }
   }, 100);
 }
 
 onMounted(async () => {
-  await nextTick(() => replaceAnchorTags())
-})
+  await nextTick(() => replaceAnchorTags());
+});
 
 function replaceAnchorsWithLinks(string: string) {
   string = `<div>${string}</div>`;
@@ -93,9 +96,8 @@ function replaceAnchorsWithLinks(string: string) {
   user-select: none;
 }
 
-.help-page-content>*:last-child {
+.help-page-content > *:last-child {
   padding-bottom: 20px;
-
 }
 
 .help-page-content *:not(a) {
@@ -120,7 +122,7 @@ p code {
   background-color: var(--color-header-border);
   padding: 2px 4px;
   border-radius: 2px;
-  color: var(--color-selection)
+  color: var(--color-selection);
 }
 
 h2 {

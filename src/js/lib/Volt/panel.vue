@@ -1,16 +1,12 @@
 <script setup lang="ts">
 import { initializeTheme } from "../utils/theme-manager";
 import { onMounted, useSlots } from "vue";
-import {
-  csi,
-  evalES,
-  evalFile,
-} from "../utils/utils";
+import { csi, evalES, evalFile } from "../utils/bolt";
 import { fs, os, path } from "../cep/node";
 import "../../index.scss";
 const props = defineProps<{
-  debug?: Boolean
-}>()
+  debug?: Boolean;
+}>();
 onMounted(() => {
   // @ts-ignore
   if (window.cep) {

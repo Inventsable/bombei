@@ -36,7 +36,7 @@ export const useHelp = defineStore(name, {
     timestamp: null,
     date: {} as HelpDate,
     target: {
-      name: "Bombei",
+      name: "bombei",
       prefix:
         "https://raw.githubusercontent.com/Inventsable/minion-pages/master/results/",
       suffix: ".json",
@@ -140,13 +140,13 @@ export const useHelp = defineStore(name, {
     },
     async loadHelpPages() {
       const rootFolder = path
-        .join(window.__adobe_cep__.getSystemPath("userData"), "Bombei")
+        .join(window.__adobe_cep__.getSystemPath("userData"), "bombei")
         .replace(/^file\:\\/, "")
         .replace(/\\/gm, "/");
       let targFile = path
         .join(
           window.__adobe_cep__.getSystemPath("userData"),
-          "Bombei",
+          "bombei",
           "help.json"
         )
         .replace(/^file\:\\/, "")

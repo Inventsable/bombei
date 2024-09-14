@@ -5,7 +5,7 @@ import { RouterLink, RouterView, useRouter } from "vue-router";
 import { useSettings } from "../stores/settings";
 import { useHelp } from "../stores/help";
 import { useCore } from "../stores/core";
-import { csi, evalES } from "../lib/utils/utils";
+import { csi, evalES } from "../lib/utils/bolt";
 const settings = useSettings(),
   help = useHelp(),
   core = useCore();

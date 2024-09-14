@@ -1,82 +1,93 @@
 <script setup lang="ts">
 //@ts-nocheck
 
-import { RouterLink, RouterView, useRouter } from 'vue-router'
-import { useSlots, ref, computed, onMounted, watch, reactive } from 'vue';
-import { Routes, Route, Tabs, Tab } from './types'
-import { useHelp } from '../../../stores/help';
+import { RouterLink, RouterView, useRouter } from "vue-router";
+import { useSlots, ref, computed, onMounted, watch, reactive } from "vue";
+import { Routes, Route, Tabs, Tab } from "./types";
+import { useHelp } from "../../../../stores/help";
 
 const help = useHelp();
 const props = defineProps<{
-  pages: Routes,
-}>()
+  pages: Routes;
+}>();
 const router = useRouter();
 const pages = ref([]);
 const activeItem = computed<Tab>({
   get(): Tab {
     // @ts-ignore
-    return pages.value.find((tab): Tab => tab.active)
+    return pages.value.find((tab): Tab => tab.active);
   },
   set(value: Tab) {
     // @ts-ignore
-    pages.value.forEach((v) => v.active = v == value);
+    pages.value.forEach((v) => (v.active = v == value));
     router.push({
-      path: value.path
-    })
+      path: value.path,
+    });
     help.activeIndex = value.index;
-  }
-})
+  },
+});
 
-watch(() => props.pages, (newVal) => {
-  console.log("Prop changed")
-  buildPages();
-}, { deep: true })
+watch(
+  () => props.pages,
+  (newVal) => {
+    console.log("Prop changed");
+    buildPages();
+  },
+  { deep: true }
+);
 onMounted(() => {
-  findActiveRoute()
-})
+  findActiveRoute();
+});
 
 function clickHandler(value: Tab): void {
-  activeItem.value = value
+  activeItem.value = value;
 }
 
 function findActiveRoute() {
   let currentRoute = router.currentRoute.value.path;
   // @ts-ignore
-  let routeMatch = pages.value.find(i => i.path == currentRoute)
-  if (routeMatch)
-    activeItem.value = routeMatch;
+  let routeMatch = pages.value.find((i) => i.path == currentRoute);
+  if (routeMatch) activeItem.value = routeMatch;
 }
 
-buildPages()
+buildPages();
 function buildPages() {
   pages.value = [];
   props.pages.forEach((route, i) => {
     let template = {
       index: i,
       hover: false,
-      active: false
-    } as Tab
+      active: false,
+    } as Tab;
     let clone = {};
     Object.assign(clone, template);
     Object.assign(clone, route);
     // @ts-ignore
     pages.value.push(clone);
-  })
+  });
 }
-
 </script>
 
 <template>
   <div class="drawer-wrapper">
-    <div class="drawer-item-wrapper" v-for="(page, i) in pages" :class="{
-      active: page.active,
-      idle: !page.active,
-      disabled: page.disabled
-    }" :key="i" @click="clickHandler(page)">
-      <div class="drawer-item-label" :class="{
+    <div
+      class="drawer-item-wrapper"
+      v-for="(page, i) in pages"
+      :class="{
         active: page.active,
-        disabled: page.disabled
-      }">
+        idle: !page.active,
+        disabled: page.disabled,
+      }"
+      :key="i"
+      @click="clickHandler(page)"
+    >
+      <div
+        class="drawer-item-label"
+        :class="{
+          active: page.active,
+          disabled: page.disabled,
+        }"
+      >
         <span class="drawer-item-text">{{ page.label }}</span>
       </div>
     </div>
@@ -122,7 +133,7 @@ function buildPages() {
   transition: all 200ms var(--quad) 20ms;
 }
 
-.drawer-item-label.active>span {
+.drawer-item-label.active > span {
   color: var(--color-selection);
 }
 

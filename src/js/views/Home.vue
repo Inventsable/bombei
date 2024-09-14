@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, computed, watch, onBeforeMount, nextTick } from "vue";
 import { useSettings } from "../stores/settings";
-import { evalES, csi } from "../lib/utils/utils";
+import { evalES, csi } from "../lib/utils/bolt";
 import type { Ref } from "vue";
 import flyoutMenu from "../lib/Volt/flyout-menu.vue";
 import contextMenu from "../lib/Volt/context-menu.vue";
@@ -72,13 +72,6 @@ function forcePopup() {
 const buildContextMenu = () => {
   return [
     {
-      label: "Show indicator",
-      checked: showIndicator.value,
-      checkable: true,
-      enabled: true,
-      id: "showIndicator",
-    },
-    {
       label: "Show help",
       enabled: true,
       id: "showHelp",
@@ -86,47 +79,6 @@ const buildContextMenu = () => {
         console.log("Popup?");
         forcePopup();
       },
-    },
-    {
-      label: "Filters",
-      menu: [
-        {
-          label: "Actives always on top",
-          checkable: true,
-          checked: settings.filters.indicatorsOnTop,
-          callback: () => {
-            settings.filters.indicatorsOnTop =
-              !settings.filters.indicatorsOnTop;
-          },
-        },
-        {
-          label: "---",
-        },
-        {
-          label: "Sort by hue",
-          checkable: true,
-          checked: settings.filters.byHue,
-          callback: () => {
-            settings.toggleSortByHue(!settings.filters.byHue);
-          },
-        },
-        {
-          label: "Sort by saturation",
-          checkable: true,
-          checked: settings.filters.bySaturation,
-          callback: () => {
-            settings.toggleSortBySaturation(!settings.filters.bySaturation);
-          },
-        },
-        {
-          label: "Sort by frequency",
-          checkable: true,
-          checked: settings.filters.byFrequency,
-          callback: () => {
-            settings.toggleSortByFrequency(!settings.filters.byFrequency);
-          },
-        },
-      ],
     },
     {
       label: "---",
@@ -154,17 +106,13 @@ const contextMenuRef = ref(buildContextMenu());
  * Used to bypass update:modelValue failing to echo with computed getter
  */
 const checkClick = (item: ContextMenuItem | ContextMenuItemProp) => {
-  if (item.id && /indicator/i.test(item.id)) {
-    showIndicator.value = !item.checked;
-  } else {
-    // This is stupid, but I can't get it to react to my Pinia state otherwise
-    contextMenuRef.value = [];
-    // So clear the value completely
-    nextTick(() => {
-      // And on nextTick, repopulate the menu with updated values to force a redraw
-      contextMenuRef.value = buildContextMenu();
-    });
-  }
+  // This is stupid, but I can't get it to react to my Pinia state otherwise
+  contextMenuRef.value = [];
+  // So clear the value completely
+  nextTick(() => {
+    // And on nextTick, repopulate the menu with updated values to force a redraw
+    contextMenuRef.value = buildContextMenu();
+  });
 };
 
 /** LIFECYCLE HOOKS */
@@ -173,13 +121,8 @@ onBeforeMount(async () => {
 });
 
 onMounted(async () => {
-  console.log("Sync to indicator");
-  await syncToAppIndicator();
-  await shallowScan();
   console.log("Mounted");
   // For testing
-  // const result = JSON.parse(await evalES(`getActiveFillColor()`))
-  // console.log(result);
 });
 </script>
 <template>
